@@ -20,6 +20,20 @@
       "env": {
         "CONTEXT7_API_KEY": "ctx7sk-a4130cdc-ab90-4dcb-8851-53ac78694f5d"
       }
+    },
+    "composio-gsheets-docs": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://backend.composio.dev/v3/mcp/28960b78-2101-473b-817d-b24ca91ee4ab/mcp?user_id=pg-test-0dd7c9d1-2863-42c0-96ab-7b97b3c37396",
+        "--header",
+        "x-api-key: ${COMPOSIO_API_KEY}",
+        "--header",
+        "Accept: application/json, text/event-stream"
+      ],
+      "env": {
+        "COMPOSIO_API_KEY": "ak_PVL7d-pIwYZMNc6z0BqZ"
+      }
     }
   }
 }
