@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "telegram-mcp": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/Users/pavelantipov/Downloads/11/telegram-mcp",
+        "run",
+        "main.py"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.context7.com/mcp",
+        "--header",
+        "CONTEXT7_API_KEY: ${CONTEXT7_API_KEY}"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "ctx7sk-a4130cdc-ab90-4dcb-8851-53ac78694f5d"
+      }
+    }
+  }
+}

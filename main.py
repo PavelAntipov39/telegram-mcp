@@ -12,9 +12,9 @@ from typing import List, Dict, Optional, Union, Any
 
 # Third-party libraries
 import nest_asyncio
-from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from pythonjsonlogger import jsonlogger
+from config import ConfigError, Settings, load_settings
 from telethon import TelegramClient, functions, utils
 from telethon.sessions import StringSession
 from telethon.tl.types import (
@@ -53,23 +53,23 @@ def json_serializer(obj):
     raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
 
-load_dotenv()
-
-TELEGRAM_API_ID = int(os.getenv("TELEGRAM_API_ID"))
-TELEGRAM_API_HASH = os.getenv("TELEGRAM_API_HASH")
-TELEGRAM_SESSION_NAME = os.getenv("TELEGRAM_SESSION_NAME")
-
-# Check if a string session exists in environment, otherwise use file-based session
-SESSION_STRING = os.getenv("TELEGRAM_SESSION_STRING")
+try:
+    settings: Settings = load_settings()
+except ConfigError as config_error:
+    print(f"Configuration error: {config_error}", file=sys.stderr)
+    sys.exit(1)
 
 mcp = FastMCP("telegram")
 
-if SESSION_STRING:
+# Use the string session if available, otherwise fall back to file-based session
+if settings.session_string:
     # Use the string session if available
-    client = TelegramClient(StringSession(SESSION_STRING), TELEGRAM_API_ID, TELEGRAM_API_HASH)
+    client = TelegramClient(
+        StringSession(settings.session_string), settings.api_id, settings.api_hash
+    )
 else:
     # Use file-based session
-    client = TelegramClient(TELEGRAM_SESSION_NAME, TELEGRAM_API_ID, TELEGRAM_API_HASH)
+    client = TelegramClient(settings.session_name, settings.api_id, settings.api_hash)
 
 # Setup robust logging with both file and console output
 logger = logging.getLogger("telegram_mcp")
